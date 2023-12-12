@@ -26,42 +26,40 @@ def parseVal(str):
 def main(): 
   print("Advent of Code 2024")
 
-  f = open("test.txt", "r")
+  f = open("input.txt", "r")
   lines = f.readlines()
 
+  p_first = re.compile("^.*?(\d|one|two|three|four|five|six|seven|eight|nine).*$")
+  p_last = re.compile("^.*(\d|one|two|three|four|five|six|seven|eight|nine).*$")
 
-  p = re.compile("^.*?(one|two|three|four|five|six|seven|eight|nine|[0-9]).*(one|two|three|four|five|six|seven|eight|nine|[0-9]).*$")
   sum = 0
 
   for line in lines: 
-    result = p.findall(line)
 
-    if len(result) > 0 and len(result[0]) == 2: 
+    first = p_first.findall(line)[0]
+    last = p_last.findall(line)[0]
 
-      first = result[0][0] 
-      last = result[0][1]
+    #Check for invalid values
+    if len(first) == 0 and len(last) > 0: 
+        first = last
 
-      #Check for invalid values
-      if len(first) == 0 and len(last) > 0: 
-          first = last
+    elif len(last) == 0 and len(first) >0: 
+        last = first
 
-      elif len(last) == 0 and len(first) >0: 
-          last = first
+    elif len(last) == 0 and len(first) == 0: 
+        first = 0
+        last = 0
 
-      elif len(last) == 0 and len(first) == 0: 
-          first = 0
-          last = 0
+    #Check for text values
+    if len(first) > 1: 
+      first = parseVal(first)
+    
+    if len(last) > 1: 
+      last = parseVal(last)
 
-      #Check for text values
-      if len(first) > 1: 
-        first = parseVal(first)
-      
-      if len(last) > 1: 
-        last = parseVal(last)
+    print(first+last)
 
-      print(first+last)
-
-      sum = sum + int(first + last)
+    sum = sum + int(first + last)
 
   f.close()
   print(sum)
