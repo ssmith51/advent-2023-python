@@ -4,7 +4,6 @@ def load(file):
   cards = []
 
   for line in lines: 
-    print(line.strip())
     card = {
       "win_nums": [], 
       "card_nums": [], 
@@ -54,16 +53,15 @@ def solve(cards):
   for card in cards: 
     count = count + card["count"]
 
-  print(count)
-
-  return total
+  return total, count
         
 
 def main(): 
   print("Advent of Code 2023")
   cards = load("/home/smis45/workspaces/personal/advent-2023-python/day04/input.txt")
-  total = solve(cards)
-  print(total)
+  total, count = solve(cards)
+  print("Total: " + str(total))
+  print("Count: " + str(count))
 
 
 if __name__ == "__main__":
